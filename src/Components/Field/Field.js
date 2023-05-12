@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import classes from "./Field.module.css";
 
-class Field extends Component {
-  render() {
-    return (
-      <div className={classes.Field}>
-        <h1>Field</h1>
-      </div>
-    );
-  }
-}
+const Field = (props) => {
+  return (
+    <input
+      className={classes.Field}
+      placeholder={props.placeholder} />
+  );
+};
 
 export default Field;

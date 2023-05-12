@@ -5,7 +5,7 @@ class Icon extends Component {
   render() {
     return (
       <div className={classes.Icon}>
-        <h1>Icon</h1>
+        <img src="../../../img/edit.png" alt="edit"/>
       </div>
     );
   }

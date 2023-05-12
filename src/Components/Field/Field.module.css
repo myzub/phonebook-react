@@ -1,3 +1,7 @@
 .Field {
-
+    margin: 0 5px 10px;
+    padding: 5px 10px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
 }

@@ -1,14 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import classes from "./Button.module.css";
 
-class Button extends Component {
-  render() {
-    return (
-      <div className={classes.Button}>
-        <h1>Button</h1>
-      </div>
-    );
-  }
-}
+const Button = (props) => {
+  return (
+    <button className={classes.Button}>{props.name}</button>
+  )
+};
 
 export default Button;
