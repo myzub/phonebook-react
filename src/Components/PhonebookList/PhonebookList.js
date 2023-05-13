@@ -1,15 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
 import classes from "./PhonebookList.module.css";
 import PhonebookItem from "./PhonebookItem/PhonebookItem";
 
-class PhonebookList extends Component {
-  render() {
-    return (
-      <div className={classes.PhonebookList}>
-        <PhonebookItem />
-      </div>
-    );
-  }
-}
+const PhonebookList = (props) => {
+  return (
+    <>
+      <table className={classes.PhonebookList}>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th></th>
+        </tr>
+        {props.contactList.map((item, key) => (
+          <PhonebookItem item={item} key={key} />
+        ))}
+      </table>
+    </>
+  );
+};
 
 export default PhonebookList;

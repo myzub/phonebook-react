@@ -1,14 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import classes from "./Icon.module.css";
 
-class Icon extends Component {
-  render() {
-    return (
-      <div className={classes.Icon}>
-        <img src="../../../img/edit.png" alt="edit"/>
-      </div>
-    );
-  }
-}
+const Icon = () => {
+  const editIcon = require("../../img/edit.png");
+  const deleteIcon = require("../../img/delete.png");
+  return (
+    <div className={classes.iconContainer}>
+      <img src={editIcon} alt="edit" className={classes.Icon} />
+      <img src={deleteIcon} alt="delete" className={classes.Icon} />
+    </div>
+  );
+};
 
 export default Icon;
