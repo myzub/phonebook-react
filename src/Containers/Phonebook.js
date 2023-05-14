@@ -6,7 +6,6 @@ import Loader from "../Components/Loader/Loader";
 import Modal from "../Components/Modal/Modal";
 import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
-// TODO search handler
 // TODO icon delete handler
 // TODO icon edit handler
 // TODO Modal windows
@@ -14,6 +13,8 @@ import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
 class Phonebook extends Component {
   state = {
+    searchIsEmpty: true,
+    filteredArray: [],
     contactList: [
       {
         id: 1,
@@ -54,13 +55,48 @@ class Phonebook extends Component {
     }));
   };
 
+  searchHandler = (event) => {
+    const searchQuery = event.target.value;
+
+    this.searchIsEmptyToggle(searchQuery);
+
+    const filteredList = this.state.contactList.filter((item) => {
+      return (
+        item.name.includes(searchQuery) ||
+        item.phone.includes(searchQuery) ||
+        item.email.includes(searchQuery)
+      );
+    });
+
+    this.setState({
+      filteredList,
+    });
+  };
+
+  searchIsEmptyToggle(toggle) {
+    toggle
+      ? this.setState({
+          searchIsEmpty: false,
+        })
+      : this.setState({
+          searchIsEmpty: true,
+        });
+  }
+
   render() {
     return (
       <div className={classes.Phonebook}>
         <div className={classes.PhonebookWrapper}>
           <h1>Phonebook</h1>
-          <Form onSubmit={this.handleSubmit} />
-          <PhonebookList contactList={this.state.contactList} />
+          <Form
+            onSubmit={this.handleSubmit}
+            searchHandler={this.searchHandler}
+          />
+          {this.state.searchIsEmpty ? (
+            <PhonebookList contactList={this.state.contactList} />
+          ) : (
+            <PhonebookList contactList={this.state.filteredList} />
+          )}
         </div>
       </div>
     );

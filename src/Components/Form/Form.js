@@ -6,7 +6,11 @@ import Button from "../Button/Button";
 const Form = (props) => {
   return (
     <form className={classes.Form} onSubmit={props.onSubmit}>
-      <Field placeholder={"Search"} />
+      <Field
+        placeholder={"Search"}
+        name={"search"}
+        searchHandler={props.searchHandler}
+      />
       <div className="field-wrapper">
         <Field placeholder={"Name"} name={"name"} />
         <Field placeholder={"Phone"} name={"phone"} />

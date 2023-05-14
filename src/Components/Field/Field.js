@@ -7,6 +7,7 @@ const Field = (props) => {
       className={classes.Field}
       placeholder={props.placeholder}
       name={props.name}
+      onChange={props.searchHandler}
     />
   );
 };
