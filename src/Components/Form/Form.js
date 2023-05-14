@@ -5,14 +5,14 @@ import Button from "../Button/Button";
 
 const Form = (props) => {
   return (
-    <form className={classes.Form}>
+    <form className={classes.Form} onSubmit={props.onSubmit}>
       <Field placeholder={"Search"} />
-      <div className="fill-wrapper">
-        <Field placeholder={"Name"} />
-        <Field placeholder={"Phone"} />
-        <Field placeholder={"Email"} />
+      <div className="field-wrapper">
+        <Field placeholder={"Name"} name={"name"} />
+        <Field placeholder={"Phone"} name={"phone"} />
+        <Field placeholder={"Email"} name={"email"} />
       </div>
-      <Button name={"Confirm"} />
+      <Button name={"Submit"} />
     </form>
   );
 };

@@ -6,15 +6,19 @@ const PhonebookList = (props) => {
   return (
     <>
       <table className={classes.PhonebookList}>
-        <tr>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th></th>
-        </tr>
-        {props.contactList.map((item, key) => (
-          <PhonebookItem item={item} key={key} />
-        ))}
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.contactList.map((item, key) => (
+            <PhonebookItem item={item} key={key} />
+          ))}
+        </tbody>
       </table>
     </>
   );

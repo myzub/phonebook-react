@@ -5,7 +5,9 @@ const Field = (props) => {
   return (
     <input
       className={classes.Field}
-      placeholder={props.placeholder} />
+      placeholder={props.placeholder}
+      name={props.name}
+    />
   );
 };
 
