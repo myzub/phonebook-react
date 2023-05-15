@@ -6,7 +6,6 @@ import Form from "../Components/Form/Form";
 // import Modal from "../Components/Modal/Modal";
 import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
-// TODO icon edit handler
 // TODO Modal windows
 // TODO fetch data from origin
 
@@ -82,8 +81,18 @@ class Phonebook extends Component {
         });
   }
 
-  editButtonHandler = (event) => {
-    alert("edited");
+  editButtonHandler = (id) => {
+    const contactToEdit = this.state.contactList.find((key) => id === key.id);
+    const isEditedName = window.prompt(`edit -${contactToEdit.name}- name?`);
+
+    if (isEditedName) {
+      const index = this.state.contactList.indexOf(contactToEdit);
+      let tempContactList = [...this.state.contactList];
+
+      contactToEdit.name = isEditedName;
+      tempContactList.splice(index, 1, contactToEdit);
+      this.setState({ contactList: tempContactList });
+    }
   };
 
   deleteButtonHandler = (id) => {
