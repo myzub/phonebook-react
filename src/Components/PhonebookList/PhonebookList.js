@@ -16,7 +16,12 @@ const PhonebookList = (props) => {
         </thead>
         <tbody>
           {props.contactList.map((item, key) => (
-            <PhonebookItem item={item} key={key} />
+            <PhonebookItem
+              item={item}
+              key={key}
+              editButtonHandler={props.editButtonHandler}
+              deleteButtonHandler={props.deleteButtonHandler}
+            />
           ))}
         </tbody>
       </table>

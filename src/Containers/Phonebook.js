@@ -35,7 +35,7 @@ class Phonebook extends Component {
     event.preventDefault();
     const target = event.target;
     // TODO id generates on server, so to delete next row
-    const id = Math.round(Date.now() / 100000000);
+    const id = Date.now();
     const name = target.name.value;
     const phone = target.phone.value;
     const email = target.email.value;
@@ -83,6 +83,21 @@ class Phonebook extends Component {
         });
   }
 
+  editButtonHandler = (event) => {
+    alert("edited");
+  };
+
+  deleteButtonHandler = (id) => {
+    const contactToDelete = this.state.contactList.find((key) => id === key.id);
+    if (window.confirm(`delete ${contactToDelete.name}?`)) {
+      let tempContactList = [...this.state.contactList];
+      const index = tempContactList.indexOf(contactToDelete);
+
+      tempContactList.splice(index, 1);
+      this.setState({ contactList: tempContactList });
+    }
+  };
+
   render() {
     return (
       <div className={classes.Phonebook}>
@@ -93,9 +108,17 @@ class Phonebook extends Component {
             searchHandler={this.searchHandler}
           />
           {this.state.searchIsEmpty ? (
-            <PhonebookList contactList={this.state.contactList} />
+            <PhonebookList
+              contactList={this.state.contactList}
+              editButtonHandler={this.editButtonHandler}
+              deleteButtonHandler={this.deleteButtonHandler}
+            />
           ) : (
-            <PhonebookList contactList={this.state.filteredList} />
+            <PhonebookList
+              contactList={this.state.filteredList}
+              editButtonHandler={this.editButtonHandler}
+              deleteButtonHandler={this.deleteButtonHandler}
+            />
           )}
         </div>
       </div>
