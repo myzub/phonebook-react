@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import classes from "./Phonebook.module.css";
 
 import Form from "../Components/Form/Form";
-import Loader from "../Components/Loader/Loader";
-import Modal from "../Components/Modal/Modal";
+// import Loader from "../Components/Loader/Loader";
+// import Modal from "../Components/Modal/Modal";
 import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
-// TODO icon delete handler
 // TODO icon edit handler
 // TODO Modal windows
 // TODO fetch data from origin
@@ -90,8 +89,8 @@ class Phonebook extends Component {
   deleteButtonHandler = (id) => {
     const contactToDelete = this.state.contactList.find((key) => id === key.id);
     if (window.confirm(`delete ${contactToDelete.name}?`)) {
+      const index = this.state.contactList.indexOf(contactToDelete);
       let tempContactList = [...this.state.contactList];
-      const index = tempContactList.indexOf(contactToDelete);
 
       tempContactList.splice(index, 1);
       this.setState({ contactList: tempContactList });
