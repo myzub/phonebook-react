@@ -6,12 +6,6 @@ import Form from "../Components/Form/Form";
 import Modal from "../Components/Modal/Modal";
 import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
-// TODO Modal windows
-// TODO Modal fetch data
-// TODO Modal update modaltype in state
-// TODO Modal button handlers
-// TODO Modal edit and delete logic
-
 // TODO fetch data from origin
 
 class Phonebook extends Component {
@@ -19,6 +13,7 @@ class Phonebook extends Component {
     searchIsEmpty: true,
     filteredArray: [],
     modalType: null,
+    currentContact: null,
     contactList: [
       {
         id: 1,
@@ -35,7 +30,7 @@ class Phonebook extends Component {
     ],
   };
 
-  handleSubmit = (event) => {
+  submitHandler = (event) => {
     event.preventDefault();
     const target = event.target;
     // TODO id generates on server, so to delete next row
@@ -87,32 +82,37 @@ class Phonebook extends Component {
         });
   }
 
-  editButtonHandler = (id) => {
+  openEditModal = (id) => {
+    this.setCurrentContact(id);
     this.setState({ modalType: "edit" });
-
-    // const contactToEdit = this.state.contactList.find((key) => id === key.id);
-    // const isEditedName = window.prompt(`edit -${contactToEdit.name}- name?`);
-    // if (isEditedName) {
-    //   const index = this.state.contactList.indexOf(contactToEdit);
-    //   let tempContactList = [...this.state.contactList];
-    //
-    //   contactToEdit.name = isEditedName;
-    //   tempContactList.splice(index, 1, contactToEdit);
-    //   this.setState({ contactList: tempContactList });
-    // }
   };
 
-  deleteButtonHandler = (id) => {
+  openDeleteModal = (id) => {
+    this.setCurrentContact(id);
     this.setState({ modalType: "delete" });
+  };
 
-    // const contactToDelete = this.state.contactList.find((key) => id === key.id);
-    // if (window.confirm(`delete ${contactToDelete.name}?`)) {
-    //   const index = this.state.contactList.indexOf(contactToDelete);
-    //   let tempContactList = [...this.state.contactList];
-    //
-    //   tempContactList.splice(index, 1);
-    //   this.setState({ contactList: tempContactList });
-    // }
+  setCurrentContact = (id) => {
+    const currentContact = this.state.contactList.find((key) => id === key.id);
+    this.setState({ currentContact });
+  };
+
+  modalHandler = (editedContact) => {
+    const index = this.state.contactList.indexOf(this.state.currentContact);
+    let newContactList = [...this.state.contactList];
+
+    switch (this.state.modalType) {
+      case "edit":
+        newContactList.splice(index, 1, editedContact);
+        break;
+      case "delete":
+        newContactList.splice(index, 1);
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ contactList: newContactList, currentContact: null });
   };
 
   hideModal = () => {
@@ -124,9 +124,11 @@ class Phonebook extends Component {
       this.hideModal();
     }
   };
+
   componentDidMount() {
     document.addEventListener("keydown", this.escCloseModal, false);
   }
+
   componentWillUnmount() {
     document.removeEventListener("keydown", this.escCloseModal, false);
   }
@@ -137,7 +139,7 @@ class Phonebook extends Component {
         <div className={classes.PhonebookWrapper}>
           <h1>Phonebook</h1>
           <Form
-            onSubmit={this.handleSubmit}
+            onSubmit={this.submitHandler}
             searchHandler={this.searchHandler}
           />
           {
@@ -145,18 +147,24 @@ class Phonebook extends Component {
             this.state.searchIsEmpty ? (
               <PhonebookList
                 contactList={this.state.contactList}
-                editButtonHandler={this.editButtonHandler}
-                deleteButtonHandler={this.deleteButtonHandler}
+                openEditModal={this.openEditModal}
+                openDeleteModal={this.openDeleteModal}
               />
             ) : (
               <PhonebookList
                 contactList={this.state.filteredList}
-                editButtonHandler={this.editButtonHandler}
-                deleteButtonHandler={this.deleteButtonHandler}
+                openEditModal={this.openEditModal}
+                openDeleteModal={this.openDeleteModal}
               />
             )
           }
-          <Modal modalType={this.state.modalType} hideModal={this.hideModal} />
+          <Modal
+            modalType={this.state.modalType}
+            currentContact={this.state.currentContact}
+            editedContact={this.editedContact}
+            hideModal={this.hideModal}
+            modalHandler={this.modalHandler}
+          />
         </div>
       </div>
     );

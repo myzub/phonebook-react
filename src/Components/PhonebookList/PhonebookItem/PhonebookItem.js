@@ -14,13 +14,13 @@ const PhonebookItem = (props) => {
         <Icon
           src={editIcon}
           alt={"edit"}
-          onClickHandler={props.editButtonHandler}
+          onClickHandler={props.openEditModal}
           contactId={props.item.id}
         />
         <Icon
           src={deleteIcon}
           alt={"delete"}
-          onClickHandler={props.deleteButtonHandler}
+          onClickHandler={props.openDeleteModal}
           contactId={props.item.id}
         />
       </td>

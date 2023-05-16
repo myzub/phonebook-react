@@ -19,8 +19,8 @@ const PhonebookList = (props) => {
             <PhonebookItem
               item={item}
               key={key}
-              editButtonHandler={props.editButtonHandler}
-              deleteButtonHandler={props.deleteButtonHandler}
+              openEditModal={props.openEditModal}
+              openDeleteModal={props.openDeleteModal}
             />
           ))}
         </tbody>
