@@ -3,16 +3,23 @@ import classes from "./Phonebook.module.css";
 
 import Form from "../Components/Form/Form";
 // import Loader from "../Components/Loader/Loader";
-// import Modal from "../Components/Modal/Modal";
+import Modal from "../Components/Modal/Modal";
 import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
 // TODO Modal windows
+// TODO Modal display on click
+// TODO Modal fetch data
+// TODO Modal update modaltype in state
+// TODO Modal button handlers
+// TODO Modal edit and delete logic
+
 // TODO fetch data from origin
 
 class Phonebook extends Component {
   state = {
     searchIsEmpty: true,
     filteredArray: [],
+    modalType: "",
     contactList: [
       {
         id: 1,
@@ -128,6 +135,7 @@ class Phonebook extends Component {
               deleteButtonHandler={this.deleteButtonHandler}
             />
           )}
+          <Modal modalType={this.state.modalType} />
         </div>
       </div>
     );

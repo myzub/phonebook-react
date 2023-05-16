@@ -1,3 +1,108 @@
 .Modal {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding: 20px;
+  width: 680px;
+  left: calc(50% - 680px / 2 + 0.5px);
+  top: calc(50% - 474px / 2);
+  filter: drop-shadow(0px 4px 40px rgba(0, 0, 0, 0.6));
+  background-color: #ffffff;
+  border-radius: 10px;
+  color: #000000;
+  z-index: 10;
+}
 
+.headerWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerWrapper > h3 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.headerWrapper > img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.Modal > form {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 36px 0;
+}
+
+span {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  margin-bottom: 12px;
+}
+
+.inputWrapper > input {
+  width: 640px;
+  height: 42px;
+  padding: 5px 10px;
+  border: 2px solid #5547b4;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.inputWrapper > input:last-child {
+  margin-bottom: 0;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+.buttonWrapper > button {
+  width: 99px;
+  height: 44px;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  cursor: pointer;
+}
+
+.buttonWrapper > button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #5547b4;
+}
+
+.buttonWrapper > button:active {
+  box-shadow: 2px 2px 5px #000;
+}
+
+.buttonWrapper > .submitButton {
+  color: #ffffff;
+  background: #5547b4;
+  margin-right: 20px;
+}
+
+.buttonWrapper > .cancelButton {
+  border: 2px solid #5547b4;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.marginDiv {
+  height: 44px;
 }
