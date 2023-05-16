@@ -7,7 +7,6 @@ import Modal from "../Components/Modal/Modal";
 import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
 // TODO Modal windows
-// TODO Modal display on click
 // TODO Modal fetch data
 // TODO Modal update modaltype in state
 // TODO Modal button handlers
@@ -19,7 +18,7 @@ class Phonebook extends Component {
   state = {
     searchIsEmpty: true,
     filteredArray: [],
-    modalType: "",
+    modalType: null,
     contactList: [
       {
         id: 1,
@@ -89,29 +88,48 @@ class Phonebook extends Component {
   }
 
   editButtonHandler = (id) => {
-    const contactToEdit = this.state.contactList.find((key) => id === key.id);
-    const isEditedName = window.prompt(`edit -${contactToEdit.name}- name?`);
+    this.setState({ modalType: "edit" });
 
-    if (isEditedName) {
-      const index = this.state.contactList.indexOf(contactToEdit);
-      let tempContactList = [...this.state.contactList];
-
-      contactToEdit.name = isEditedName;
-      tempContactList.splice(index, 1, contactToEdit);
-      this.setState({ contactList: tempContactList });
-    }
+    // const contactToEdit = this.state.contactList.find((key) => id === key.id);
+    // const isEditedName = window.prompt(`edit -${contactToEdit.name}- name?`);
+    // if (isEditedName) {
+    //   const index = this.state.contactList.indexOf(contactToEdit);
+    //   let tempContactList = [...this.state.contactList];
+    //
+    //   contactToEdit.name = isEditedName;
+    //   tempContactList.splice(index, 1, contactToEdit);
+    //   this.setState({ contactList: tempContactList });
+    // }
   };
 
   deleteButtonHandler = (id) => {
-    const contactToDelete = this.state.contactList.find((key) => id === key.id);
-    if (window.confirm(`delete ${contactToDelete.name}?`)) {
-      const index = this.state.contactList.indexOf(contactToDelete);
-      let tempContactList = [...this.state.contactList];
+    this.setState({ modalType: "delete" });
 
-      tempContactList.splice(index, 1);
-      this.setState({ contactList: tempContactList });
+    // const contactToDelete = this.state.contactList.find((key) => id === key.id);
+    // if (window.confirm(`delete ${contactToDelete.name}?`)) {
+    //   const index = this.state.contactList.indexOf(contactToDelete);
+    //   let tempContactList = [...this.state.contactList];
+    //
+    //   tempContactList.splice(index, 1);
+    //   this.setState({ contactList: tempContactList });
+    // }
+  };
+
+  hideModal = () => {
+    this.setState({ modalType: null });
+  };
+
+  escCloseModal = (event) => {
+    if (event.key === "Escape") {
+      this.hideModal();
     }
   };
+  componentDidMount() {
+    document.addEventListener("keydown", this.escCloseModal, false);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escCloseModal, false);
+  }
 
   render() {
     return (
@@ -122,20 +140,23 @@ class Phonebook extends Component {
             onSubmit={this.handleSubmit}
             searchHandler={this.searchHandler}
           />
-          {this.state.searchIsEmpty ? (
-            <PhonebookList
-              contactList={this.state.contactList}
-              editButtonHandler={this.editButtonHandler}
-              deleteButtonHandler={this.deleteButtonHandler}
-            />
-          ) : (
-            <PhonebookList
-              contactList={this.state.filteredList}
-              editButtonHandler={this.editButtonHandler}
-              deleteButtonHandler={this.deleteButtonHandler}
-            />
-          )}
-          <Modal modalType={this.state.modalType} />
+          {
+            // TODO refactor PhonebookList display code
+            this.state.searchIsEmpty ? (
+              <PhonebookList
+                contactList={this.state.contactList}
+                editButtonHandler={this.editButtonHandler}
+                deleteButtonHandler={this.deleteButtonHandler}
+              />
+            ) : (
+              <PhonebookList
+                contactList={this.state.filteredList}
+                editButtonHandler={this.editButtonHandler}
+                deleteButtonHandler={this.deleteButtonHandler}
+              />
+            )
+          }
+          <Modal modalType={this.state.modalType} hideModal={this.hideModal} />
         </div>
       </div>
     );

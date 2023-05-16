@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import classes from "./Modal.module.css";
 
 class Modal extends Component {
-  modalType = this.props.modalType;
   closeIcon = require("../../img/close.png");
 
   renderEditModal() {
@@ -10,7 +9,11 @@ class Modal extends Component {
       <div className={classes.Modal}>
         <div className={classes.headerWrapper}>
           <h3>Edit name</h3>
-          <img src={this.closeIcon} alt="close" />
+          <img
+            src={this.closeIcon}
+            alt="close"
+            onClick={this.props.hideModal}
+          />
         </div>
         <form action="">
           <div className={classes.inputWrapper}>
@@ -25,7 +28,12 @@ class Modal extends Component {
             <button type={"submit"} className={classes.submitButton}>
               OK
             </button>
-            <button className={classes.cancelButton}>Cancel</button>
+            <button
+              className={classes.cancelButton}
+              onClick={this.props.hideModal}
+            >
+              Cancel
+            </button>
           </div>
         </form>
       </div>
@@ -37,26 +45,36 @@ class Modal extends Component {
       <div className={classes.Modal}>
         <div className={classes.headerWrapper}>
           <h3>Delete name?</h3>
-          <img src={this.closeIcon} alt="close" />
+          <img
+            src={this.closeIcon}
+            alt="close"
+            onClick={this.props.hideModal}
+          />
         </div>
         <div className={classes.marginDiv}></div>
         <div className={classes.buttonWrapper}>
           <button type={"submit"} className={classes.submitButton}>
             OK
           </button>
-          <button className={classes.cancelButton}>Cancel</button>
+          <button
+            className={classes.cancelButton}
+            onClick={this.props.hideModal}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     );
   }
 
   renderByType() {
-    if (this.modalType) {
-      if (this.modalType === "edit") {
+    if (this.props.modalType) {
+      if (this.props.modalType === "edit") {
         return this.renderEditModal();
-      } else if (this.modalType === "delete") {
+      } else if (this.props.modalType === "delete") {
         return this.renderDeleteModal();
       }
+
     }
   }
 
