@@ -57,7 +57,7 @@ class Phonebook extends Component {
   searchHandler = (event) => {
     const searchQuery = event.target.value;
 
-    this.searchIsEmptyToggle(searchQuery);
+    this.searchIsEmptyToggle(!!searchQuery);
 
     const filteredList = this.state.contactList.filter((item) => {
       return (
@@ -73,13 +73,9 @@ class Phonebook extends Component {
   };
 
   searchIsEmptyToggle(toggle) {
-    toggle
-      ? this.setState({
-          searchIsEmpty: false,
-        })
-      : this.setState({
-          searchIsEmpty: true,
-        });
+    this.setState({
+      searchIsEmpty: !toggle,
+    });
   }
 
   openEditModal = (id) => {
