@@ -15,12 +15,11 @@ const PhonebookList = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.contactList.map((item, key) => (
+          {props.contactList.map((contact, key) => (
             <PhonebookItem
-              item={item}
+              contact={contact}
               key={key}
-              openEditModal={props.openEditModal}
-              openDeleteModal={props.openDeleteModal}
+              openModal={props.openModal}
             />
           ))}
         </tbody>

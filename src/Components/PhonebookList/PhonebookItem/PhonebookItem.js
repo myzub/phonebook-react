@@ -2,26 +2,34 @@ import React from "react";
 import classes from "./PhonebookItem.module.css";
 import Icon from "../../Icon/Icon";
 
+const editIcon = require("../../../img/edit.png");
+const deleteIcon = require("../../../img/delete.png");
+
 const PhonebookItem = (props) => {
-  const editIcon = require("../../../img/edit.png");
-  const deleteIcon = require("../../../img/delete.png");
+  const {
+    contact: { id, name, phone, email },
+    openModal,
+  } = props;
+
   return (
     <tr className={classes.PhonebookItem}>
-      <td>{props.item.name}</td>
-      <td>{props.item.phone}</td>
-      <td>{props.item.email}</td>
+      <td>{name}</td>
+      <td>{phone}</td>
+      <td>{email}</td>
       <td>
         <Icon
           src={editIcon}
           alt={"edit"}
-          onClickHandler={props.openEditModal}
-          contactId={props.item.id}
+          name={"edit"}
+          openModal={openModal}
+          contactId={id}
         />
         <Icon
           src={deleteIcon}
           alt={"delete"}
-          onClickHandler={props.openDeleteModal}
-          contactId={props.item.id}
+          name={"delete"}
+          openModal={openModal}
+          contactId={id}
         />
       </td>
     </tr>

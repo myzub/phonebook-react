@@ -7,6 +7,13 @@ import Modal from "../Components/Modal/Modal";
 import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
 // TODO fetch data from origin
+// TODO Loader
+// save to localStorage
+// react portal
+// modal outside main
+// close modal on outside click
+// form in modal
+// fields in forms
 
 class Phonebook extends Component {
   state = {
@@ -78,19 +85,9 @@ class Phonebook extends Component {
     });
   }
 
-  openEditModal = (id) => {
-    this.setCurrentContact(id);
-    this.setState({ modalType: "edit" });
-  };
-
-  openDeleteModal = (id) => {
-    this.setCurrentContact(id);
-    this.setState({ modalType: "delete" });
-  };
-
-  setCurrentContact = (id) => {
+  openModal = (id, name) => {
     const currentContact = this.state.contactList.find((key) => id === key.id);
-    this.setState({ currentContact });
+    this.setState({ modalType: name, currentContact });
   };
 
   modalHandler = (editedContact) => {
@@ -111,6 +108,7 @@ class Phonebook extends Component {
     this.setState({ contactList: newContactList, currentContact: null });
   };
 
+  // TODO refactor/delete hideModal
   hideModal = () => {
     this.setState({ modalType: null });
   };
