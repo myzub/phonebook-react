@@ -21,6 +21,7 @@ class Phonebook extends Component {
     filteredArray: [],
     modalType: null,
     currentContact: null,
+    editedContact: {},
     contactList: [
       {
         id: 1,
@@ -90,13 +91,48 @@ class Phonebook extends Component {
     this.setState({ modalType: name, currentContact });
   };
 
-  modalHandler = (editedContact) => {
+  updateInputValue = (event) => {
+    const { value, name } = event.target;
+    this.setState((prev) => {
+      return {
+        editedContact: { ...prev.editedContact, [name]: value },
+      };
+    });
+  };
+
+  modalSubmitHandler = () => {
+    if (
+      !(
+        this.state.editedContact.name &&
+        this.state.editedContact.phone &&
+        this.state.editedContact.email
+      )
+    ) {
+      return;
+    }
+    const { id } = this.state.currentContact;
     const index = this.state.contactList.indexOf(this.state.currentContact);
     let newContactList = [...this.state.contactList];
 
+    this.setState((prevState) => ({
+      editedContact: {
+        ...prevState.editedContact,
+        id,
+      },
+    }));
+
     switch (this.state.modalType) {
       case "edit":
-        newContactList.splice(index, 1, editedContact);
+        console.log("editedContact: " + this.state.editedContact);
+
+        // const updatedList = this.state.contactList.map((item) => {
+        //   if (id === item.id) {
+        //     return this.state.editedContact;
+        //   }
+        //   return item;
+        // });
+
+        newContactList.splice(index, 1, this.state.editedContact);
         break;
       case "delete":
         newContactList.splice(index, 1);
@@ -105,7 +141,11 @@ class Phonebook extends Component {
         break;
     }
 
-    this.setState({ contactList: newContactList, currentContact: null });
+    this.setState({
+      contactList: newContactList,
+      currentContact: null,
+      editedContact: {},
+    });
   };
 
   // TODO refactor/delete hideModal
@@ -128,6 +168,10 @@ class Phonebook extends Component {
   }
 
   render() {
+    const list = this.state.searchIsEmpty
+      ? this.state.contactList
+      : this.state.filteredList;
+
     return (
       <div className={classes.Phonebook}>
         <div className={classes.PhonebookWrapper}>
@@ -136,28 +180,14 @@ class Phonebook extends Component {
             onSubmit={this.submitHandler}
             searchHandler={this.searchHandler}
           />
-          {
-            // TODO refactor PhonebookList display code
-            this.state.searchIsEmpty ? (
-              <PhonebookList
-                contactList={this.state.contactList}
-                openEditModal={this.openEditModal}
-                openDeleteModal={this.openDeleteModal}
-              />
-            ) : (
-              <PhonebookList
-                contactList={this.state.filteredList}
-                openEditModal={this.openEditModal}
-                openDeleteModal={this.openDeleteModal}
-              />
-            )
-          }
+          <PhonebookList contactList={list} openModal={this.openModal} />
+          {/*TODO modal out of the root*/}
           <Modal
             modalType={this.state.modalType}
             currentContact={this.state.currentContact}
-            editedContact={this.editedContact}
             hideModal={this.hideModal}
-            modalHandler={this.modalHandler}
+            modalSubmitHandler={this.modalSubmitHandler}
+            updateInputValue={this.updateInputValue}
           />
         </div>
       </div>

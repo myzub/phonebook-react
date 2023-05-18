@@ -1,39 +1,48 @@
 import React, { Component } from "react";
 import classes from "./Modal.module.css";
 
+const closeIcon = require("../../img/close.png");
+
 class Modal extends Component {
-  closeIcon = require("../../img/close.png");
+  // TODO create separate edit and delete components
 
   renderEditModal() {
+    const {
+      currentContact: { name, phone, email },
+      updateInputValue,
+      modalSubmitHandler,
+      hideModal,
+    } = this.props;
+    console.log("in renderEditModal! " + name);
+
     return (
       <div className={classes.Modal}>
         <div className={classes.headerWrapper}>
-          <h3>Edit {this.props.currentContact.name}?</h3>
-          <img
-            src={this.closeIcon}
-            alt="close"
-            onClick={this.props.hideModal}
-          />
+          <h3>Edit {name}?</h3>
+          <img src={closeIcon} alt="close" onClick={hideModal} />
         </div>
         <form>
           <div className={classes.inputWrapper}>
             <span>Name</span>
             <input
-              id={"inputName"}
+              name={"name"}
               type="text"
-              defaultValue={this.props.currentContact.name}
+              defaultValue={name}
+              onChange={updateInputValue}
             />
             <span>Phone</span>
             <input
-              id={"inputPhone"}
+              name={"phone"}
               type="text"
-              defaultValue={this.props.currentContact.phone}
+              defaultValue={phone}
+              onChange={updateInputValue}
             />
             <span>Email</span>
             <input
-              id={"inputEmail"}
               type="text"
-              defaultValue={this.props.currentContact.email}
+              name={"email"}
+              defaultValue={email}
+              onChange={updateInputValue}
               autoComplete="off"
             />
           </div>
@@ -41,25 +50,13 @@ class Modal extends Component {
             <button
               className={classes.submitButton}
               onClick={() => {
-                const name = document.getElementById("inputName").value;
-                const phone = document.getElementById("inputPhone").value;
-                const email = document.getElementById("inputEmail").value;
-                const editedContact = {
-                  id: this.props.currentContact.id,
-                  name,
-                  phone,
-                  email,
-                };
-                this.props.modalHandler(editedContact);
-                this.props.hideModal();
+                modalSubmitHandler();
+                hideModal();
               }}
             >
               OK
             </button>
-            <button
-              className={classes.cancelButton}
-              onClick={this.props.hideModal}
-            >
+            <button className={classes.cancelButton} onClick={hideModal}>
               Cancel
             </button>
           </div>
@@ -69,31 +66,30 @@ class Modal extends Component {
   }
 
   renderDeleteModal() {
+    const {
+      currentContact: { name },
+      modalSubmitHandler,
+      hideModal,
+    } = this.props;
+
     return (
       <div className={classes.Modal}>
         <div className={classes.headerWrapper}>
-          <h3>Delete {this.props.currentContact.name}?</h3>
-          <img
-            src={this.closeIcon}
-            alt="close"
-            onClick={this.props.hideModal}
-          />
+          <h3>Delete {name}?</h3>
+          <img src={closeIcon} alt="close" onClick={hideModal} />
         </div>
         <div className={classes.marginDiv}></div>
         <div className={classes.buttonWrapper}>
           <button
             onClick={() => {
-              this.props.hideModal();
-              this.props.modalHandler();
+              hideModal();
+              modalSubmitHandler();
             }}
             className={classes.submitButton}
           >
             OK
           </button>
-          <button
-            className={classes.cancelButton}
-            onClick={this.props.hideModal}
-          >
+          <button className={classes.cancelButton} onClick={hideModal}>
             Cancel
           </button>
         </div>
@@ -102,10 +98,11 @@ class Modal extends Component {
   }
 
   renderByType() {
-    if (this.props.modalType) {
-      if (this.props.modalType === "edit") {
+    const { modalType } = this.props;
+    if (modalType) {
+      if (modalType === "edit") {
         return this.renderEditModal();
-      } else if (this.props.modalType === "delete") {
+      } else if (modalType === "delete") {
         return this.renderDeleteModal();
       }
     }
