@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import classes from "./Modal.module.css";
 
 const closeIcon = require("../../img/close.png");
@@ -109,7 +110,10 @@ class Modal extends Component {
   }
 
   render() {
-    return <>{this.renderByType()}</>;
+    return ReactDOM.createPortal(
+      <>{this.renderByType()}</>,
+      document.getElementById("modal-root")
+    );
   }
 }
 

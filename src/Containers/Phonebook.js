@@ -181,7 +181,6 @@ class Phonebook extends Component {
             searchHandler={this.searchHandler}
           />
           <PhonebookList contactList={list} openModal={this.openModal} />
-          {/*TODO modal out of the root*/}
           <Modal
             modalType={this.state.modalType}
             currentContact={this.state.currentContact}
