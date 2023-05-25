@@ -8,12 +8,10 @@ import PhonebookList from "../Components/PhonebookList/PhonebookList";
 
 // TODO fetch data from origin
 // TODO Loader
-// save to localStorage
-// react portal
-// modal outside main
-// close modal on outside click
-// form in modal
-// fields in forms
+// TODO save to localStorage
+// TODO close modal on outside click
+// TODO form in modal
+// TODO fields in forms
 
 class Phonebook extends Component {
   state = {
@@ -21,7 +19,7 @@ class Phonebook extends Component {
     filteredArray: [],
     modalType: null,
     currentContact: null,
-    editedContact: {},
+    editedContact: null,
     contactList: [
       {
         id: 1,
@@ -88,11 +86,15 @@ class Phonebook extends Component {
 
   openModal = (id, name) => {
     const currentContact = this.state.contactList.find((key) => id === key.id);
-    this.setState({ modalType: name, currentContact });
+    this.setState({
+      modalType: name,
+      currentContact,
+      editedContact: currentContact,
+    });
   };
 
   updateInputValue = (event) => {
-    const { value, name } = event.target;
+    const { name, value } = event.target;
     this.setState((prev) => {
       return {
         editedContact: { ...prev.editedContact, [name]: value },
@@ -101,37 +103,21 @@ class Phonebook extends Component {
   };
 
   modalSubmitHandler = () => {
-    if (
-      !(
-        this.state.editedContact.name &&
-        this.state.editedContact.phone &&
-        this.state.editedContact.email
-      )
-    ) {
-      return;
-    }
-    const { id } = this.state.currentContact;
+    // TODO find item not by index but by id
+
     const index = this.state.contactList.indexOf(this.state.currentContact);
     let newContactList = [...this.state.contactList];
 
-    this.setState((prevState) => ({
-      editedContact: {
-        ...prevState.editedContact,
-        id,
-      },
-    }));
-
     switch (this.state.modalType) {
       case "edit":
-        console.log("editedContact: " + this.state.editedContact);
-
-        // const updatedList = this.state.contactList.map((item) => {
+        // const { id } = this.state.currentContact;
+        // this.state.contactList.map((item) => {
         //   if (id === item.id) {
+        //
         //     return this.state.editedContact;
         //   }
         //   return item;
         // });
-
         newContactList.splice(index, 1, this.state.editedContact);
         break;
       case "delete":
@@ -140,22 +126,23 @@ class Phonebook extends Component {
       default:
         break;
     }
-
     this.setState({
       contactList: newContactList,
+    });
+    this.closeModal();
+  };
+
+  closeModal = () => {
+    this.setState({
+      modalType: null,
       currentContact: null,
       editedContact: {},
     });
   };
 
-  // TODO refactor/delete hideModal
-  hideModal = () => {
-    this.setState({ modalType: null });
-  };
-
   escCloseModal = (event) => {
     if (event.key === "Escape") {
-      this.hideModal();
+      this.closeModal();
     }
   };
 
@@ -184,7 +171,7 @@ class Phonebook extends Component {
           <Modal
             modalType={this.state.modalType}
             currentContact={this.state.currentContact}
-            hideModal={this.hideModal}
+            closeModal={this.closeModal}
             modalSubmitHandler={this.modalSubmitHandler}
             updateInputValue={this.updateInputValue}
           />

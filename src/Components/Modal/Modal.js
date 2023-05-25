@@ -6,21 +6,22 @@ const closeIcon = require("../../img/close.png");
 
 class Modal extends Component {
   // TODO create separate edit and delete components
+  // TODO close on background click
+  // TODO add dark background
 
   renderEditModal() {
     const {
       currentContact: { name, phone, email },
       updateInputValue,
       modalSubmitHandler,
-      hideModal,
+      closeModal,
     } = this.props;
-    console.log("in renderEditModal! " + name);
 
     return (
       <div className={classes.Modal}>
         <div className={classes.headerWrapper}>
           <h3>Edit {name}?</h3>
-          <img src={closeIcon} alt="close" onClick={hideModal} />
+          <img src={closeIcon} alt="close" onClick={closeModal} />
         </div>
         <form>
           <div className={classes.inputWrapper}>
@@ -52,12 +53,12 @@ class Modal extends Component {
               className={classes.submitButton}
               onClick={() => {
                 modalSubmitHandler();
-                hideModal();
+                closeModal();
               }}
             >
               OK
             </button>
-            <button className={classes.cancelButton} onClick={hideModal}>
+            <button className={classes.cancelButton} onClick={closeModal}>
               Cancel
             </button>
           </div>
@@ -70,27 +71,27 @@ class Modal extends Component {
     const {
       currentContact: { name },
       modalSubmitHandler,
-      hideModal,
+      closeModal,
     } = this.props;
 
     return (
       <div className={classes.Modal}>
         <div className={classes.headerWrapper}>
           <h3>Delete {name}?</h3>
-          <img src={closeIcon} alt="close" onClick={hideModal} />
+          <img src={closeIcon} alt="close" onClick={closeModal} />
         </div>
         <div className={classes.marginDiv}></div>
         <div className={classes.buttonWrapper}>
           <button
             onClick={() => {
-              hideModal();
+              closeModal();
               modalSubmitHandler();
             }}
             className={classes.submitButton}
           >
             OK
           </button>
-          <button className={classes.cancelButton} onClick={hideModal}>
+          <button className={classes.cancelButton} onClick={closeModal}>
             Cancel
           </button>
         </div>
