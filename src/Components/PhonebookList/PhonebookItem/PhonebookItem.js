@@ -8,7 +8,6 @@ const deleteIcon = require("../../../img/delete.png");
 const PhonebookItem = (props) => {
   const {
     contact: { id, name, phone, email },
-    openModal,
   } = props;
 
   return (
@@ -17,20 +16,8 @@ const PhonebookItem = (props) => {
       <td>{phone}</td>
       <td>{email}</td>
       <td>
-        <Icon
-          src={editIcon}
-          alt={"edit"}
-          name={"edit"}
-          openModal={openModal}
-          contactId={id}
-        />
-        <Icon
-          src={deleteIcon}
-          alt={"delete"}
-          name={"delete"}
-          openModal={openModal}
-          contactId={id}
-        />
+        <Icon src={editIcon} alt={"EDIT"} name={"EDIT"} contactId={id} />
+        <Icon src={deleteIcon} alt={"DELETE"} name={"DELETE"} contactId={id} />
       </td>
     </tr>
   );

@@ -2,10 +2,12 @@ import React from "react";
 import classes from "./Form.module.css";
 import Field from "../Field/Field";
 import Button from "../Button/Button";
+import { connect } from "react-redux";
+import { submitHandler, searchHandler } from "../../store/actions/phonebook";
 
 const Form = (props) => {
   return (
-    <form className={classes.Form} onSubmit={props.onSubmit}>
+    <form className={classes.Form} onSubmit={props.submitHandler}>
       <Field
         placeholder={"Search"}
         name={"search"}
@@ -21,4 +23,11 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+function mapDispatchToProps(dispatch) {
+  return {
+    submitHandler: (event) => dispatch(submitHandler(event)),
+    searchHandler: (event) => dispatch(searchHandler(event)),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Form);

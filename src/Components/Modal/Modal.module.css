@@ -1,3 +1,11 @@
+.modalBackdrop {
+  /*width: 100vh;*/
+  /*height: 100vh;*/
+  /*background-color: rgba(0, 0, 0, 0.4);*/
+  /*z-index: 9;*/
+
+}
+
 .Modal {
   display: flex;
   flex-direction: column;

@@ -1,8 +1,10 @@
 import React from "react";
 import classes from "./Icon.module.css";
+import { connect } from "react-redux";
+import { contactIconClickHandler } from "../../store/actions/phonebook";
 
 const Icon = (props) => {
-  const { src, alt, name, openModal, contactId } = props;
+  const { src, alt, name, contactId } = props;
   return (
     <img
       src={src}
@@ -10,11 +12,16 @@ const Icon = (props) => {
       name={name}
       id={contactId}
       className={classes.Icon}
-      onClick={() => (
-          openModal(contactId, name)
-      )}
+      onClick={() => props.contactIconClickHandler(contactId, name)}
     />
   );
 };
 
-export default Icon;
+function mapDispatchToProps(dispatch) {
+  return {
+    contactIconClickHandler: (id, modalType) =>
+      dispatch(contactIconClickHandler(id, modalType)),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Icon);

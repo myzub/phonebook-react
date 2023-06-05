@@ -15,12 +15,8 @@ const PhonebookList = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.contactList.map((contact, key) => (
-            <PhonebookItem
-              contact={contact}
-              key={key}
-              openModal={props.openModal}
-            />
+          {props.contactList.map((contact) => (
+            <PhonebookItem contact={contact} key={contact.id} />
           ))}
         </tbody>
       </table>

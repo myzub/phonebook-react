@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classes from "./Modal.module.css";
+import { connect } from "react-redux";
+import {
+  closeModal,
+  modalSubmitHandler,
+  updateInputValue,
+} from "../../store/actions/modal";
 
 const closeIcon = require("../../img/close.png");
 
@@ -10,18 +16,13 @@ class Modal extends Component {
   // TODO add dark background
 
   renderEditModal() {
-    const {
-      currentContact: { name, phone, email },
-      updateInputValue,
-      modalSubmitHandler,
-      closeModal,
-    } = this.props;
+    const { name, phone, email } = this.props.currentContact;
 
     return (
       <div className={classes.Modal}>
         <div className={classes.headerWrapper}>
           <h3>Edit {name}?</h3>
-          <img src={closeIcon} alt="close" onClick={closeModal} />
+          <img src={closeIcon} alt="close" onClick={this.props.closeModal} />
         </div>
         <form>
           <div className={classes.inputWrapper}>
@@ -30,21 +31,21 @@ class Modal extends Component {
               name={"name"}
               type="text"
               defaultValue={name}
-              onChange={updateInputValue}
+              onChange={this.props.updateInputValue}
             />
             <span>Phone</span>
             <input
               name={"phone"}
               type="text"
               defaultValue={phone}
-              onChange={updateInputValue}
+              onChange={this.props.updateInputValue}
             />
             <span>Email</span>
             <input
               type="text"
               name={"email"}
               defaultValue={email}
-              onChange={updateInputValue}
+              onChange={this.props.updateInputValue}
               autoComplete="off"
             />
           </div>
@@ -52,13 +53,16 @@ class Modal extends Component {
             <button
               className={classes.submitButton}
               onClick={() => {
-                modalSubmitHandler();
-                closeModal();
+                this.props.modalSubmitHandler();
+                this.props.closeModal();
               }}
             >
               OK
             </button>
-            <button className={classes.cancelButton} onClick={closeModal}>
+            <button
+              className={classes.cancelButton}
+              onClick={this.props.closeModal}
+            >
               Cancel
             </button>
           </div>
@@ -68,30 +72,27 @@ class Modal extends Component {
   }
 
   renderDeleteModal() {
-    const {
-      currentContact: { name },
-      modalSubmitHandler,
-      closeModal,
-    } = this.props;
-
     return (
       <div className={classes.Modal}>
         <div className={classes.headerWrapper}>
-          <h3>Delete {name}?</h3>
-          <img src={closeIcon} alt="close" onClick={closeModal} />
+          <h3>Delete {this.props.name}?</h3>
+          <img src={closeIcon} alt="close" onClick={this.props.closeModal} />
         </div>
         <div className={classes.marginDiv}></div>
         <div className={classes.buttonWrapper}>
           <button
             onClick={() => {
-              closeModal();
-              modalSubmitHandler();
+              this.props.modalSubmitHandler();
+              this.props.closeModal();
             }}
             className={classes.submitButton}
           >
             OK
           </button>
-          <button className={classes.cancelButton} onClick={closeModal}>
+          <button
+            className={classes.cancelButton}
+            onClick={this.props.closeModal}
+          >
             Cancel
           </button>
         </div>
@@ -99,23 +100,32 @@ class Modal extends Component {
     );
   }
 
-  renderByType() {
-    const { modalType } = this.props;
-    if (modalType) {
-      if (modalType === "edit") {
-        return this.renderEditModal();
-      } else if (modalType === "delete") {
-        return this.renderDeleteModal();
-      }
-    }
-  }
-
   render() {
     return ReactDOM.createPortal(
-      <>{this.renderByType()}</>,
+      <div className={classes.modalBackdrop}>
+        {this.props.modalType === "EDIT"
+          ? this.renderEditModal()
+          : this.props.modalType === "DELETE"
+          ? this.renderDeleteModal()
+          : null}
+      </div>,
       document.getElementById("modal-root")
     );
   }
 }
 
-export default Modal;
+function mapStateToProps(state) {
+  const { modalType, currentContact } = state.phonebook;
+  return { modalType, currentContact };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    closeModal: () => dispatch(closeModal()),
+    modalSubmitHandler: () => dispatch(modalSubmitHandler()),
+    updateInputValue: (event) =>
+      dispatch(updateInputValue(event.target.name, event.target.value)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);
