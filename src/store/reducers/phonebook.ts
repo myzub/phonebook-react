@@ -1,24 +1,39 @@
 import {
   ADD_NEW_CONTACT,
-  CLOSE_MODAL,
   OPEN_MODAL,
   SEARCH_IS_EMPTY_TOGGLE,
   SET_FILTERED_LIST,
+  SET_NEW_CONTACT_LIST,
+  CLOSE_MODAL,
+  UPDATE_CONTACT,
 } from "../actions/actionTypes";
 
-const initialState = {
+interface IInitialState {
+  modalType: string;
+  currentContact: object;
+  editedContact: object;
+  loading: boolean;
+  searchIsEmpty: boolean;
+  filteredList: object[];
+  contactList: object[];
+}
+
+const initialState: IInitialState = {
+  modalType: null,
+  currentContact: null,
+  editedContact: {},
   loading: false,
   searchIsEmpty: true,
   filteredList: [],
   contactList: [
     {
-      id: 1,
+      id: 111,
       name: "Michael",
       phone: "1231231",
       email: "qwerty@asd.com",
     },
     {
-      id: 2,
+      id: 222,
       name: "Denys",
       phone: "343434",
       email: "asdfgh@qwe.com",
@@ -33,6 +48,16 @@ export default function phonebook(state = initialState, action) {
         ...state,
         contactList: [...state.contactList, action.newContact],
       };
+    case SEARCH_IS_EMPTY_TOGGLE:
+      return { ...state, searchIsEmpty: !action.toggle };
+    case SET_FILTERED_LIST:
+      return { ...state, filteredList: action.filteredList };
+    case SET_NEW_CONTACT_LIST: {
+      return {
+        ...state,
+        contactList: action.newContactList,
+      };
+    }
     case OPEN_MODAL:
       return {
         ...state,
@@ -45,12 +70,15 @@ export default function phonebook(state = initialState, action) {
         ...state,
         modalType: null,
         currentContact: null,
-        editedContact: {},
       };
-    case SEARCH_IS_EMPTY_TOGGLE:
-      return { ...state, searchIsEmpty: !action.toggle };
-    case SET_FILTERED_LIST:
-      return { ...state, filteredList: action.filteredList };
+    case UPDATE_CONTACT:
+      return {
+        ...state,
+        editedContact: {
+          ...state.editedContact,
+          [action.name]: action.value,
+        },
+      };
     default:
       return state;
   }

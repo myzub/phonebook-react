@@ -1,8 +1,11 @@
 import {
   ADD_NEW_CONTACT,
+  CLOSE_MODAL,
   OPEN_MODAL,
   SEARCH_IS_EMPTY_TOGGLE,
   SET_FILTERED_LIST,
+  SET_NEW_CONTACT_LIST,
+  UPDATE_CONTACT,
 } from "./actionTypes";
 
 export function submitHandler(event) {
@@ -68,19 +71,55 @@ export function searchHandler(event) {
   };
 }
 
-export function openModal(modalType, currentContact) {
+export function openModal(currentContact, modalType) {
   return {
     type: OPEN_MODAL,
-    modalType,
     currentContact,
+    modalType,
   };
 }
 
-export function contactIconClickHandler(id, modalType) {
+export function closeModal() {
+  return { type: CLOSE_MODAL };
+}
+
+export function updateContact(name, value) {
+  return {
+    type: UPDATE_CONTACT,
+    name,
+    value,
+  };
+}
+
+export function setNewContactList(newContactList) {
+  return { type: SET_NEW_CONTACT_LIST, newContactList };
+}
+
+export function modalSubmitHandler() {
   return (dispatch, getState) => {
-    const currentContact = getState().phonebook.contactList.find(
-      (contact) => id === contact.id
-    );
-    dispatch(openModal(modalType, currentContact));
+    const { contactList, currentContact, modalType, editedContact } =
+      getState().phonebook;
+    const { id } = currentContact;
+    let newContactList;
+
+    switch (modalType) {
+      case "EDIT":
+        dispatch(updateContact("id", id));
+        newContactList = contactList.map((item) => {
+          if (item.id === id) {
+            return editedContact;
+          }
+          return item;
+        });
+        break;
+      case "DELETE":
+        newContactList = contactList.filter((item) => item.id !== id);
+        break;
+      default:
+        break;
+    }
+
+    dispatch(setNewContactList(newContactList));
+    dispatch(closeModal());
   };
 }

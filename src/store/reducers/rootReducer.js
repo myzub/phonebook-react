@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
-import phonebook from "./phonebook";
-import modal from "./modal";
+import phonebook from "./phonebook.ts";
 
 export default combineReducers({
   phonebook,
-  modal,
 });

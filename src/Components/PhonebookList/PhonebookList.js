@@ -1,8 +1,11 @@
 import React from "react";
 import classes from "./PhonebookList.module.css";
 import PhonebookItem from "./PhonebookItem/PhonebookItem";
+import { useSelector } from "react-redux";
 
-const PhonebookList = (props) => {
+const PhonebookList = () => {
+  const renderList = usePhonebookList();
+
   return (
     <>
       <table className={classes.PhonebookList}>
@@ -15,7 +18,7 @@ const PhonebookList = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.contactList.map((contact) => (
+          {renderList.map((contact) => (
             <PhonebookItem contact={contact} key={contact.id} />
           ))}
         </tbody>
@@ -23,5 +26,13 @@ const PhonebookList = (props) => {
     </>
   );
 };
+
+function usePhonebookList() {
+  const searchIsEmpty = useSelector((state) => state.phonebook.searchIsEmpty);
+  const filteredList = useSelector((state) => state.phonebook.filteredList);
+  const contactList = useSelector((state) => state.phonebook.contactList);
+
+  return searchIsEmpty ? contactList : filteredList;
+}
 
 export default PhonebookList;
