@@ -6,24 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { closeModal } from "../../store/actions/phonebook";
 
-// TODO close on background click
-// TODO add dark background
 
 const Modal = () => {
-  const { modalType } = useModal();
-
-  const selectModal = () => {
-    if (modalType === "EDIT") {
-      return <EditModal />;
-    } else if (modalType === "DELETE") {
-      return <DeleteModal />;
-    } else {
-      return null;
-    }
-  };
+  const selectModal = useModal();
 
   return ReactDOM.createPortal(
-    <div className={classes.modalBackdrop}>{selectModal()}</div>,
+    <>{selectModal()}</>,
     document.getElementById("modal-root")
   );
 };
@@ -46,7 +34,15 @@ function useModal() {
     };
   }, [modalType]);
 
-  return { modalType };
+  return () => {
+    if (modalType === "EDIT") {
+      return <EditModal />;
+    } else if (modalType === "DELETE") {
+      return <DeleteModal />;
+    } else {
+      return null;
+    }
+  };
 }
 
 export default Modal;
