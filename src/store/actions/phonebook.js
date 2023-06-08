@@ -5,6 +5,7 @@ import {
   SEARCH_IS_EMPTY_TOGGLE,
   SET_FILTERED_LIST,
   SET_NEW_CONTACT_LIST,
+  TOGGLE_LOADER,
   UPDATE_CONTACT,
 } from "./actionTypes";
 
@@ -12,7 +13,6 @@ export function submitHandler(event) {
   return (dispatch) => {
     event.preventDefault();
     const target = event.target;
-    // TODO id generates on server, so to delete next row
     const id = Date.now();
     const name = target.name.value;
     const phone = target.phone.value;
@@ -121,5 +121,12 @@ export function modalSubmitHandler() {
 
     dispatch(setNewContactList(newContactList));
     dispatch(closeModal());
+  };
+}
+
+export function toggleLoader(toggle) {
+  return {
+    type: TOGGLE_LOADER,
+    toggle,
   };
 }

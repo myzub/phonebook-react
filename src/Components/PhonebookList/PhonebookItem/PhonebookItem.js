@@ -3,6 +3,7 @@ import classes from "./PhonebookItem.module.css";
 import Icon from "../../Icon/Icon";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../store/actions/phonebook";
+
 const editIcon = require("../../../img/edit.png");
 const deleteIcon = require("../../../img/delete.png");
 

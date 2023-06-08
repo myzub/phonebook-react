@@ -6,6 +6,7 @@ import {
   SET_NEW_CONTACT_LIST,
   CLOSE_MODAL,
   UPDATE_CONTACT,
+  TOGGLE_LOADER,
 } from "../actions/actionTypes";
 
 interface IInitialState {
@@ -25,20 +26,7 @@ const initialState: IInitialState = {
   loading: false,
   searchIsEmpty: true,
   filteredList: [],
-  contactList: [
-    {
-      id: 111,
-      name: "Michael",
-      phone: "1231231",
-      email: "qwerty@asd.com",
-    },
-    {
-      id: 222,
-      name: "Denys",
-      phone: "343434",
-      email: "asdfgh@qwe.com",
-    },
-  ],
+  contactList: [],
 };
 
 export default function phonebook(state = initialState, action) {
@@ -78,6 +66,11 @@ export default function phonebook(state = initialState, action) {
           ...state.editedContact,
           [action.name]: action.value,
         },
+      };
+    case TOGGLE_LOADER:
+      return {
+        ...state,
+        loading: action.toggle,
       };
     default:
       return state;
