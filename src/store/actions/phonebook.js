@@ -8,6 +8,7 @@ import {
   TOGGLE_LOADER,
   UPDATE_CONTACT,
 } from "./actionTypes";
+import getAllContacts from "../../api/api";
 
 export function submitHandler(event) {
   return (dispatch) => {
@@ -128,5 +129,20 @@ export function toggleLoader(toggle) {
   return {
     type: TOGGLE_LOADER,
     toggle,
+  };
+}
+
+export function fetchContactList() {
+  return async (dispatch) => {
+    try {
+      dispatch(toggleLoader(true));
+      const response = await getAllContacts();
+      const contacts = await response.json();
+      dispatch(setNewContactList(contacts.data));
+      dispatch(toggleLoader(false));
+    } catch (e) {
+      dispatch(toggleLoader(true));
+      console.log(`Error fetching Contact List! \n exception: ${e}`);
+    }
   };
 }
