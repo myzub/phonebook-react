@@ -22,3 +22,11 @@ export async function postNewContact(newContact) {
 export async function deleteContact(contactId) {
   return _request("DELETE", `${origin}/phonebook/${contactId}`, undefined);
 }
+
+export async function putContact(contact) {
+  return _request(
+      "PUT",
+      `${origin}/phonebook/${contact.id}`,
+      contact
+  );
+}
