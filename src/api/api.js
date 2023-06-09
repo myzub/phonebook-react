@@ -14,3 +14,7 @@ async function _request(method, URL, body) {
 export async function getAllContacts() {
   return _request("GET", `${origin}/phonebook`, undefined);
 }
+
+export async function postNewContact(newContact) {
+  return _request("POST", `${origin}/phonebook/`, newContact);
+}

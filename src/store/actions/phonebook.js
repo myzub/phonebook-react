@@ -8,6 +8,7 @@ import {
   TOGGLE_LOADER,
   UPDATE_CONTACT,
 } from "./actionTypes";
+import postContact from "../../api/postContact";
 
 export function submitHandler(event) {
   return (dispatch) => {
@@ -29,6 +30,7 @@ export function submitHandler(event) {
     }
 
     dispatch(addNewContact(newContact));
+    postContact(newContact);
   };
 }
 
@@ -130,4 +132,3 @@ export function toggleLoader(toggle) {
     toggle,
   };
 }
-
