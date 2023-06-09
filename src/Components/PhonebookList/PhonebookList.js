@@ -3,7 +3,7 @@ import classes from "./PhonebookList.module.css";
 import PhonebookItem from "./PhonebookItem/PhonebookItem";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
-import { fetchContactList } from "../../store/actions/phonebook";
+import fetchContactList from "../../api/fetchContactList";
 
 const PhonebookList = () => {
   const { isLoading, renderList, fetchContactListDispatch } =

@@ -11,7 +11,6 @@ async function _request(method, URL, body) {
   });
 }
 
-export default function getAllContacts() {
+export async function getAllContacts() {
   return _request("GET", `${origin}/phonebook`, undefined);
 }
-
