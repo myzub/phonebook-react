@@ -9,6 +9,7 @@ import {
   UPDATE_CONTACT,
 } from "./actionTypes";
 import postContact from "../../api/postContact";
+import deleteContactById from "../../api/deleteContact";
 
 export function submitHandler(event) {
   return (dispatch) => {
@@ -116,6 +117,7 @@ export function modalSubmitHandler() {
         break;
       case "DELETE":
         newContactList = contactList.filter((item) => item.id !== id);
+        deleteContactById(id);
         break;
       default:
         break;

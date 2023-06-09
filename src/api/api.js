@@ -18,3 +18,7 @@ export async function getAllContacts() {
 export async function postNewContact(newContact) {
   return _request("POST", `${origin}/phonebook/`, newContact);
 }
+
+export async function deleteContact(contactId) {
+  return _request("DELETE", `${origin}/phonebook/${contactId}`, undefined);
+}
